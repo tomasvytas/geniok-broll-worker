@@ -4,31 +4,6 @@ Generates B-roll clips from text prompts.
 Model cached on network volume for fast warm starts.
 """
 
-# MUST be before any other imports — patch flash_attn to prevent infer_schema crash
-import sys
-import types
-import importlib
-
-# Create a fake flash_attn module so diffusers doesn't try to import the real one
-fake_flash = types.ModuleType("flash_attn")
-fake_flash.__spec__ = importlib.machinery.ModuleSpec("flash_attn", None)
-fake_flash.__package__ = "flash_attn"
-fake_flash.__path__ = []
-fake_flash.flash_attn_func = None
-fake_flash.flash_attn_varlen_func = None
-
-fake_interface = types.ModuleType("flash_attn.flash_attn_interface")
-fake_interface.__spec__ = importlib.machinery.ModuleSpec("flash_attn.flash_attn_interface", None)
-fake_interface.flash_attn_func = None
-fake_interface.flash_attn_varlen_func = None
-
-fake_padding = types.ModuleType("flash_attn.bert_padding")
-fake_padding.__spec__ = importlib.machinery.ModuleSpec("flash_attn.bert_padding", None)
-
-sys.modules["flash_attn"] = fake_flash
-sys.modules["flash_attn.flash_attn_interface"] = fake_interface
-sys.modules["flash_attn.bert_padding"] = fake_padding
-
 import runpod
 import torch
 import os
