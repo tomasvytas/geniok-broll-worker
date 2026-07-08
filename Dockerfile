@@ -1,8 +1,11 @@
-FROM runpod/pytorch:2.5.1-py3.11-cuda12.4.1-devel-ubuntu22.04
+FROM runpod/pytorch:2.4.0-py3.11-cuda12.4.1-devel-ubuntu22.04
 
 WORKDIR /app
 
 RUN pip install --no-cache-dir --upgrade pip setuptools wheel
+
+# Remove flash_attn that comes with base image — it conflicts with diffusers Wan pipeline
+RUN pip uninstall -y flash_attn flash-attn || true
 
 RUN pip install --no-cache-dir \
     runpod \
@@ -21,9 +24,5 @@ RUN pip install --no-cache-dir \
 
 # Copy handler
 COPY handler.py /app/handler.py
-
-# Disable torch compile to avoid infer_schema issues
-ENV TORCH_COMPILE_DISABLE=1
-ENV DIFFUSERS_DISABLE_COMPILE=1
 
 CMD ["python", "-u", "/app/handler.py"]
