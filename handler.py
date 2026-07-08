@@ -14,12 +14,10 @@ from pathlib import Path
 
 # Model will be downloaded to network volume (persists between cold starts)
 MODEL_ID = "Wan-AI/Wan2.1-T2V-14B-Diffusers"
-CACHE_DIR = "/runpod-volume/models"
-# Force this directory regardless — the volume should be mounted here
+CACHE_DIR = "/tmp/models"
 os.makedirs(CACHE_DIR, exist_ok=True)
-# Also set HuggingFace cache to same location
-os.environ["HF_HOME"] = "/runpod-volume/hf_cache"
-os.environ["TRANSFORMERS_CACHE"] = "/runpod-volume/hf_cache"
+os.environ["HF_HOME"] = "/tmp/hf_cache"
+os.environ["TRANSFORMERS_CACHE"] = "/tmp/hf_cache"
 pipe = None
 
 
