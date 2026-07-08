@@ -2,18 +2,22 @@ FROM runpod/pytorch:2.4.0-py3.11-cuda12.4.1-devel-ubuntu22.04
 
 WORKDIR /app
 
-# Install dependencies
+# Install compatible versions
 RUN pip install --no-cache-dir \
     runpod \
-    diffusers>=0.32.0 \
-    transformers \
-    accelerate \
+    "diffusers[torch]>=0.33.0" \
+    "transformers>=4.45.0" \
+    "accelerate>=0.34.0" \
     safetensors \
     sentencepiece \
     boto3 \
     imageio[ffmpeg] \
+    imageio \
     opencv-python-headless \
-    torch torchvision
+    ftfy
+
+# Upgrade torch to match diffusers requirements
+RUN pip install --no-cache-dir --upgrade torch torchvision --index-url https://download.pytorch.org/whl/cu124
 
 # Copy handler
 COPY handler.py /app/handler.py
