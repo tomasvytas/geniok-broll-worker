@@ -16,9 +16,9 @@ WORKDIR /app
 RUN pip install --no-cache-dir \
     torch==2.5.1 torchvision==0.20.1 --index-url https://download.pytorch.org/whl/cu124
 
-# Pin diffusers to 0.32.2 (has WanPipeline, before flash_attn custom_op broke)
+# diffusers 0.33.0 has WanPipeline + torch 2.5.1 has fixed infer_schema
 RUN pip install --no-cache-dir \
-    diffusers==0.32.2 \
+    diffusers==0.33.0 \
     transformers==4.47.0 \
     accelerate==0.34.2 \
     safetensors \
