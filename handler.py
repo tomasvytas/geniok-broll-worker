@@ -13,7 +13,7 @@ import boto3
 from pathlib import Path
 
 # Model will be downloaded to network volume (persists between cold starts)
-MODEL_ID = "Wan-AI/Wan2.1-T2V-14B-Diffusers"
+MODEL_ID = "Wan-AI/Wan2.1-T2V-1.3B-Diffusers"
 CACHE_DIR = "/tmp/models"
 os.makedirs(CACHE_DIR, exist_ok=True)
 os.environ["HF_HOME"] = "/tmp/hf_cache"
