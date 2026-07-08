@@ -1,6 +1,8 @@
 FROM pytorch/pytorch:2.5.1-cuda12.4-cudnn9-devel
 
 ENV PYTHONUNBUFFERED=1
+ENV HF_HOME=/runpod-volume/hf_cache
+ENV TRANSFORMERS_CACHE=/runpod-volume/hf_cache
 
 WORKDIR /app
 
