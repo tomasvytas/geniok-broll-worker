@@ -23,6 +23,9 @@ def load_model():
     if pipe is not None:
         return pipe
 
+    # Disable torch compile to avoid infer_schema conflicts
+    torch._dynamo.config.suppress_errors = True
+    
     from diffusers import WanPipeline
 
     print(f"Loading Wan 2.1 14B from {CACHE_DIR}...")
@@ -33,8 +36,6 @@ def load_model():
         torch_dtype=torch.float16,
         cache_dir=CACHE_DIR,
     )
-    pipe.to("cuda")
-    # Enable memory optimizations
     pipe.enable_model_cpu_offload()
     print("Model loaded and ready!")
     return pipe
