@@ -13,7 +13,7 @@ import boto3
 from pathlib import Path
 
 # Model will be downloaded to network volume (persists between cold starts)
-MODEL_ID = "Wan-AI/Wan2.1-T2V-14B"
+MODEL_ID = "Wan-AI/Wan2.1-T2V-14B-Diffusers"
 CACHE_DIR = "/runpod-volume/models" if os.path.exists("/runpod-volume") else "/tmp/models"
 pipe = None
 
