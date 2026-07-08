@@ -14,7 +14,8 @@ WORKDIR /app
 
 # Install PyTorch 2.5.1 (has fixed infer_schema)
 RUN pip install --no-cache-dir \
-    torch==2.5.1 torchvision==0.20.1 --index-url https://download.pytorch.org/whl/cu124
+    torch==2.5.1 torchvision==0.20.1 \
+    --index-url https://download.pytorch.org/whl/cu124
 
 # diffusers 0.33.0 has WanPipeline + torch 2.5.1 has fixed infer_schema
 RUN pip install --no-cache-dir \
