@@ -3,25 +3,29 @@ FROM nvidia/cuda:12.4.1-devel-ubuntu22.04
 ENV DEBIAN_FRONTEND=noninteractive
 ENV PYTHONUNBUFFERED=1
 
-# Install Python
-RUN apt-get update && apt-get install -y python3.11 python3.11-venv python3-pip git && \
-    ln -sf /usr/bin/python3.11 /usr/bin/python && \
-    ln -sf /usr/bin/python3.11 /usr/bin/python3 && \
-    rm -rf /var/lib/apt/lists/*
+# Install Python 3.11
+RUN apt-get update && apt-get install -y \
+    python3.11 python3.11-venv python3.11-dev python3-pip git wget \
+    && ln -sf /usr/bin/python3.11 /usr/bin/python \
+    && ln -sf /usr/bin/python3.11 /usr/bin/python3 \
+    && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
-# Install PyTorch + dependencies (clean environment, no flash_attn)
+# Install PyTorch 2.5.1 (has fixed infer_schema)
 RUN pip install --no-cache-dir \
-    torch==2.4.0 torchvision --index-url https://download.pytorch.org/whl/cu124
+    torch==2.5.1 torchvision==0.20.1 --index-url https://download.pytorch.org/whl/cu124
+
+# Pin diffusers to 0.32.2 (has WanPipeline, before flash_attn custom_op broke)
+RUN pip install --no-cache-dir \
+    diffusers==0.32.2 \
+    transformers==4.47.0 \
+    accelerate==0.34.2 \
+    safetensors \
+    sentencepiece
 
 RUN pip install --no-cache-dir \
     runpod \
-    diffusers \
-    transformers \
-    accelerate \
-    safetensors \
-    sentencepiece \
     boto3 \
     imageio \
     imageio-ffmpeg \
