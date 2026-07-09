@@ -1,4 +1,4 @@
-FROM pytorch/pytorch:2.5.1-cuda12.4-cudnn9-devel
+FROM pytorch/pytorch:2.6.0-cuda12.6-cudnn9-devel
 
 ENV PYTHONUNBUFFERED=1
 ENV HF_HOME=/tmp/hf_cache
@@ -6,7 +6,6 @@ ENV TRANSFORMERS_CACHE=/tmp/hf_cache
 
 WORKDIR /app
 
-# diffusers 0.33.0 has WanPipeline
 RUN pip install --no-cache-dir \
     diffusers==0.33.0 \
     transformers==4.47.0 \
